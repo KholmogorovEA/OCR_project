@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нейро-юрист</title>
+    <link rel="stylesheet" href="/static/rezult.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <h1 data-text="Отчет об анализе качества">Полученый текст из скан документов</h1>
+
+    <h2 class="tt">Транскрибированный текст:</h2>
+    <div class="transcript" id="transcript">{{ processed_texts }}</div>
+
+
+    <h2>Чат с Нейро-юристом:</h2>
+    <div id="chat-container" class="chat-container">
+        <div id="chat-messages">
+        </div>
+    </div>
+    
+    <div class="chat-input">
+        <input type="text" id="user-message" placeholder="Введите сообщение...">
+        <button id="send-message">Отправить</button>
+    </div>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const messageInput = document.getElementById('user-message');
+    
+            // Отправка сообщения при нажатии кнопки или Enter
+            document.getElementById('send-message').addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+    
+            async function sendMessage() {
+                const userMessage = messageInput.value;
+    
+                // Проверка, что сообщение не пустое
+                if (userMessage.trim() === "") {
+                    console.warn("Пользовательское сообщение пустое.");
+                    return;
+                }
+    
+                addMessage(userMessage, 'user');
+    
+                // Логирование перед отправкой запроса
+                const requestData = {
+                    topic: userMessage,
+                    system_for_NA: `Ты Нейро-юрист Иван, эксперт по нахождению точной информации в векторной базе юридической компании. Твоя основная задача — предоставлять максимально полные и точные ответы, 
+                                    строго основываясь на информации из базы. Ты можешь использовать до 6000 токенов для формирования ответа, чтобы детально осветить запрос пользователя.
+
+                                    1. **Инструкции по ответам**:
+                                    - При юридических запросах тщательно анализируй информацию в векторной базе и предоставляй полный, подробный ответ.
+                                    - Если объем информации превышает ограничение, структурируй ответ логически и предоставь его в нескольких частях, отмечая "Продолжение следует...".
+
+                                    2. **Обработка нерелевантных запросов**:
+                                    - На вопросы, не касающиеся юридической информации (например, о погоде или общих темах), отвечай: "Я Иван нейро-юрист, специализируюсь только на юридической информации из векторной базы. 
+                                    По данному вопросу, пожалуйста, обратитесь к соответствующим специалистам."
+
+                                    3. **Параметры**:
+                                    - **Поддержка объемных ответов**: Ты можешь использовать до 6000 токенов для ответа.
+                                    - **Структурированность**: Для больших объемов информации используй заголовки и разбивку на абзацы, чтобы облегчить восприятие информации пользователем.
+
+                                    4. **Запрещено**:
+                                    - Придумывать информацию или давать ответы без основания на данных из векторной базы.
+                                    - Давать советы или высказывать мнения, которые не могут быть подтверждены информацией из базы.
+
+                                    Твоя цель — обеспечивать детальные, структурированные и точные ответы, ограничиваясь данными из векторной базы, демонстрируя высокий уровень профессионализма.
+                                    `
+                };
+    
+                console.log("Данные для отправки:", requestData);
+    
+                try {
+                    // Отправка запроса на сервер
+                    const response = await fetch('http://localhost:8000/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+    
+                    // Логирование ответа сервера
+                    if (!response.ok) {
+                        console.error("Ошибка ответа сервера:", response.status, response.statusText);
+                    }
+    
+                    const data = await response.json();
+    
+                    // Проверка ответа от сервера
+                    if (data && data.answer) {
+                        console.log("Ответ от сервера:", data.answer);
+                        // Добавляем мигающий курсор перед началом печати
+                        addTypingCursor();
+                        // Добавляем ответ посимвольно
+                        addMessageTypingEffect(data.answer, 'llm');
+                    } else {
+                        console.warn("Ответ сервера не содержит поля 'answer'.", data);
+                    }
+                } catch (error) {
+                    console.error("Ошибка при отправке запроса:", error);
+                }
+    
+                // Очистка поля ввода
+                messageInput.value = '';
+            }
+    
+            // Функция для добавления мигающего курсора
+            function addTypingCursor() {
+                const chatMessages = document.getElementById('chat-messages');
+                const cursorElement = document.createElement('div');
+                cursorElement.classList.add('chat-message', 'llm', 'typing-cursor');
+                cursorElement.innerHTML = '<span class="cursor">|</span>';
+                chatMessages.appendChild(cursorElement);
+    
+                // Прокрутка чата вниз
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+                // Анимация мигания курсора
+                const cursor = cursorElement.querySelector('.cursor');
+                let isVisible = true;
+                setInterval(() => {
+                    isVisible = !isVisible;
+                    cursor.style.opacity = isVisible ? 1 : 0;
+                }, 500); // Интервал мигания (в миллисекундах)
+            }
+    
+            // Функция для добавления сообщения с эффектом печати
+            function addMessageTypingEffect(message, sender) {
+                const chatMessages = document.getElementById('chat-messages');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message', sender);
+                chatMessages.appendChild(messageElement);
+    
+                // Удаляем мигающий курсор
+                const cursorElement = document.querySelector('.typing-cursor');
+                if (cursorElement) {
+                    cursorElement.remove();
+                }
+    
+                let index = 0;
+                const typingSpeed = 10; // Скорость печати (в миллисекундах)
+    
+                function typeNextCharacter() {
+                    if (index < message.length) {
+                        messageElement.innerHTML += message.charAt(index);
+                        index++;
+                        setTimeout(typeNextCharacter, typingSpeed);
+    
+                        // Прокрутка чата вниз
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                }
+    
+                // Начинаем печать
+                typeNextCharacter();
+            }
+    
+            // Функция для добавления обычного сообщения
+            function addMessage(message, sender) {
+                const chatMessages = document.getElementById('chat-messages');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message', sender);
+                messageElement.innerHTML = `<span>${message}</span>`;
+                chatMessages.appendChild(messageElement);
+    
+                // Прокрутка чата вниз
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        });
+    </script>
+
+
+    <footer class="container">
+        <a href="https://www.apple.com" target="_blank" id="apple">
+            <i class="fa fa-apple"></i>
+        </a>
+        <a href="https://twitter.com" target="_blank" id="twitter">
+            <i class="fa fa-twitter"></i>
+        </a>
+        <a href="https://github.com/KholmogorovEA" target="_blank" id="github">
+            <i class="fa fa-github-square"></i>
+        </a>
+        <a href="https://vk.com/ea_kholmogorov" target="_blank" id="vk">
+            <i class="fa fa-vk"></i>
+        </a>
+        <a href="https://www.youtube.com/watch?v=YML4-C8b9HI" target="_blank" id="youtube">
+            <i class="fa fa-youtube-square"></i>
+        </a>
+    </footer>
+</body>
+
+</html>

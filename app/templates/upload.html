@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нейро юрист</title>
+    <link rel="stylesheet" href="/static/upload.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <style>
+       
+        #preloader {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95); /* Более плотный белый фон */
+            z-index: 9999;
+            text-align: center;
+            padding-top: 20%;
+        }
+        #preloader div {
+            width: 50%;
+            margin: 0 auto;
+            font-size: 2em; /* Увеличиваем размер текста */
+            color: #000;
+            font-weight: bold; /* Делаем текст жирным */
+        }
+        #progress {
+            width: 0%;
+            height: 10px;
+            background-color: #0072ff;
+            margin-top: 20px;
+            transition: width 0.5s;
+        }
+        button#cancelButton {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style> -->
+</head>
+<body>
+    <h1 data-text="Нейро юрист">Нейро-юрист для команды юристов</h1>
+    <h2>Загрузите сканы или архив с изображениями для извлечения текстовых данных с помощью OCR</h2>
+    
+    <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+        <label for="file">Выберите файл (изображение или архив):</label>
+        <input type="file" name="file" id="file" accept=".jpg, .jpeg, .png, .pdf, .zip" required><br><br>
+        
+        <label for="fileType">Выберите тип документа:</label>
+        <select name="fileType" id="fileType" required>
+            <option value="single">Скан</option>
+            <option value="pdf">PDF файл</option>
+            <option value="archive">Архив (max 100 MB)</option>
+        </select><br><br>
+
+        <button type="submit">Загрузить</button>
+    </form>
+
+    <!-- Прелоадер
+    <div id="preloader">
+        <div>Пожалуйста, подождите...</div>
+        <div id="progress"></div>
+        <button id="cancelButton">Отмена</button>
+    </div> -->
+
+    <!-- <script>
+        const form = document.getElementById('uploadForm');
+        const preloader = document.getElementById('preloader');
+        const progress = document.getElementById('progress');
+        const cancelButton = document.getElementById('cancelButton');
+        let interval;
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Пока что предотвращаем отправку
+
+            // Показываем прелоадер
+            preloader.style.display = 'block';
+
+            // Симуляция процесса загрузки
+            let width = 0;
+            interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    // Отправляем форму на сервер
+                    form.submit();
+                } else {
+                    width += 1;
+                    progress.style.width = width + '%';
+                }
+            }, 50);
+        });
+
+        cancelButton.addEventListener('click', function() {
+            clearInterval(interval); // Остановить симуляцию
+            preloader.style.display = 'none'; // Скрыть прелоадер
+        });
+    </script> -->
+
+    <style>
+        /* Стили заголовков, формы, кнопок и фона */
+        h1 {
+            position: relative;
+            font-size: 4em;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            text-transform: uppercase;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+        }
+
+        h2 {
+            margin-top: 4em;
+            background: linear-gradient(90deg, 
+                        #e2f4ab, #f0f01d, #d1d100);
+            background-repeat: no-repeat;
+            background-size: 80%;
+            animation: animate 8s linear infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0);
+            text-align: center;
+        }
+
+        @keyframes animate {
+            0% { background-position: -500%; }
+            100% { background-position: 500%; }
+        }
+
+        form {
+            background-color: rgba(32, 17, 51, 0.383);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            margin: 70px auto;
+            text-align: center;
+        }
+
+        label {
+            color: #ffffff8f;
+            font-size: 1.2em;
+        }
+
+        input[type="file"], select {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff8c00, #ff5722);
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff5722, #ff8c00);
+        }
+
+        body {
+            background: linear-gradient(to bottom, #000000, #050570, #02029d);
+            color: #c7c7d3;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #18191f;
+            width: 100%;
+        }
+
+        #apple, #twitter, #github, #vk, #youtube{
+            font-size: 4em;
+            color: #fff;
+            margin: 0 20px;
+            text-shadow: 0 0 20px #0072ff, 0 0 40px #0072ff, 0 0 60px #0072ff;
+            animation: glow 3s linear infinite;
+        }
+
+        #twitter { animation-delay: 0.3s; }
+        #facebook { animation-delay: 0.7s; }
+        #github { animation-delay: 0.1s; }
+        #vk { animation-delay: 1s; }
+        #youtube { animation-delay: 1s; }
+
+        @keyframes glow {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+        }
+
+        footer a {
+            text-decoration: none !important;
+            color: #fff !important;
+        }
+
+        footer a:hover {
+            opacity: 0.8 !important;
+        }
+    </style>
+
+    <footer class="container">
+        <a href="https://www.apple.com" target="_blank" id="apple">
+            <i class="fa fa-apple"></i>
+        </a>
+        <a href="https://twitter.com" target="_blank" id="twitter">
+            <i class="fa fa-twitter"></i>
+        </a>
+        <a href="https://github.com/KholmogorovEA" target="_blank" id="github">
+            <i class="fa fa-github-square"></i>
+        </a>
+        <a href="https://vk.com/ea_kholmogorov" target="_blank" id="vk">
+            <i class="fa fa-vk"></i>
+        </a>
+        <a href="https://www.youtube.com/watch?v=YML4-C8b9HI" target="_blank" id="youtube">
+            <i class="fa fa-youtube-square"></i>
+        </a>
+    </footer>
+</body>
+</html>

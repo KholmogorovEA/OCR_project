@@ -1,0 +1,76 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+.ENV/
+
+# Environment variables
+.env
+.env.*
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Static analysis
+.mypy_cache/
+.pyre/
+.dmypy.json
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+
+# Uvicorn / Gunicorn PID files
+*.pid
+
+# __pypackages__ per PEP 582
+__pypackages__/
+
+# Output folders
+dist/
+build/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docker
+*.tar
+docker-compose.override.yml
+
+# Local dev
+*.local

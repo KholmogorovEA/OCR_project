@@ -1,0 +1,140 @@
+/* Стили для заголовков uploads */
+h1 {
+    position: relative;
+    font-size: 4em;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7); /* Прозрачный цвет стекла */
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5); /* Подчеркивание контура стекла */
+}
+
+/* h1::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: transparent;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+    -webkit-background-clip: text; 
+    transform: rotateX(180deg);
+    opacity: 0.2;
+    transform-origin: bottom;
+    pointer-events: none;
+} */
+
+/* h2 {
+    margin-top: 4em;
+    background: linear-gradient(90deg, 
+                #923e6f, #bd5941, #cf6b08);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: animate 8s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0);
+    text-align: center;
+} */
+
+@keyframes animate {
+    0% { background-position: -500%; }
+    100% { background-position: 500%; }
+}
+
+/* Стили формы */
+form {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin: 70px auto;
+    text-align: center;
+}
+
+label {
+    color: #ffffff;
+    font-size: 1.2em;
+}   
+
+input[type="file"], select {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button {
+    background: linear-gradient(135deg, #ff8c00, #ff5722);
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s;
+    display: block;
+    margin: 20px auto;
+}
+
+button:hover {
+    background: linear-gradient(135deg, #ff5722, #ff8c00);
+}
+
+body {
+    background: linear-gradient(to bottom, #000000, #000033, #000066);
+    color: #c7c7d3;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #18191f;
+    width: 100%;
+}
+
+#apple, #twitter, #github, #vk, #youtube{
+    font-size: 4em;
+    color: #fff;
+    margin: 0 20px;
+    text-shadow: 0 0 20px #0072ff, 0 0 40px #0072ff, 0 0 60px #0072ff;
+    animation: glow 3s linear infinite;
+}
+
+#twitter { animation-delay: 0.3s; }
+#facebook { animation-delay: 0.7s; }
+#github { animation-delay: 0.1s; }
+#vk { animation-delay: 1s; }
+#youtube { animation-delay: 1s; }
+
+@keyframes glow {
+    from { filter: hue-rotate(0deg); }
+    to { filter: hue-rotate(360deg); }
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: none !important;
+    color: #fff !important;
+}
+
+footer a:hover {
+    opacity: 0.8 !important;
+}

@@ -1,0 +1,268 @@
+/* Основной фон с градиентом и анимацией */
+body {
+    background: linear-gradient(135deg, #01010e, #01002b, #12121e);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    color: #c7c7d3;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Заголовок с зеркальным эффектом */
+h1 {
+    position: relative;
+    font-size: 4em;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.7); /* Прозрачный цвет стекла */
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5); /* Подчеркивание контура стекла */
+}
+
+/* Стиль для подзаголовка */
+.tt {
+    margin-top: 4em;
+    background: linear-gradient(90deg, 
+                #923e6f, #bd5941, #cf6b08);
+    background-repeat: no-repeat;
+    background-size: 80%;
+    animation: animate 8s linear infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: rgba(255, 255, 255, 0);
+}
+
+@keyframes animate {
+    0% { background-position: -500%; }
+    100% { background-position: 500%; }
+}
+
+/* Стиль для блока транскрибированного текста */
+.transcript {
+    background: linear-gradient(135deg, #1e1e2eea, #0101bcdf);
+    color: #e6e6e6;
+    padding: 20px;
+    border-radius: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+    line-height: 1.8;
+    text-align: justify;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    word-break: break-word;
+    width: 90%;
+    max-width: 1500px;
+    margin: 20px auto;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow-y: auto;
+    max-height: 500px; /* Добавлено ограничение по высоте */
+}
+
+.transcript::before {
+    content: '📜 Транскрипт:';
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    color: #ff8c00;
+}
+
+.transcript span {
+    display: block;
+    margin-bottom: 10px;
+    padding-left: 15px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    .transcript {
+        font-size: 1em;
+        padding: 15px;
+        width: 100%;
+    }
+
+    .chat-container {
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .chat-message span {
+        font-size: 1em;
+    }
+
+    .chat-input input {
+        padding: 8px;
+    }
+
+    .chat-input button {
+        padding: 8px 15px;
+    }
+
+    footer {
+        padding: 10px;
+    }
+
+    footer a {
+        font-size: 3em;
+    }
+}
+
+
+
+
+/* Стиль для чата */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1500px;
+    margin: 50px auto;
+    background: #1e1e2e;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    height: 500px; /* Установленная высота контейнера */
+    position: relative;
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto; /* Прокрутка только для сообщений */
+    margin-bottom: 10px;
+    padding-right: 10px; /* Добавьте немного отступа справа, чтобы не обрезать текст */
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message.llm {
+    justify-content: flex-start;
+}
+
+.chat-message span {
+    max-width: 70%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.chat-message.user span {
+    margin-right: 10px;
+    border: 2px solid #fff; /* Белая обводка */
+    padding: 10px; /* Добавление паддинга для отступов внутри */
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.chat-message.llm span {
+    margin-left: 10px;
+    border: 2px solid #0d2183; /* Белая обводка */
+    padding: 10px; /* Добавление паддинга для отступов внутри */
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: #ffffff;
+}
+
+
+.chat-input {
+    display: flex;
+    width: 50%;
+    margin-top: auto; /* Строка ввода будет оставаться внизу */
+    margin-bottom: 20px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 13px;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid #ccc;
+}
+
+.chat-input button {
+    padding: 10px 20px;
+    border-radius: 0 8px 8px 0;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+.typing-cursor .cursor {
+    color: white; /* Белый цвет курсора */
+    font-weight: bold; /* Делаем курсор более заметным */
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
+
+/* Анимация для иконок в футере */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #18191f;
+    width: 100%;
+}
+
+#apple, #twitter, #github, #vk, #youtube{
+    font-size: 4em;
+    color: #fff;
+    margin: 0 20px;
+    text-shadow: 0 0 20px #0072ff, 0 0 40px #0072ff, 0 0 60px #0072ff;
+    animation: glow 3s linear infinite;
+}
+
+#twitter { animation-delay: 0.3s; }
+#facebook { animation-delay: 0.7s; }
+#github { animation-delay: 0.1s; }
+#vk { animation-delay: 1s; }
+#youtube { animation-delay: 1s; }
+
+@keyframes glow {
+    from { filter: hue-rotate(0deg); }
+    to { filter: hue-rotate(360deg); }
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
