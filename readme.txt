@@ -125,7 +125,6 @@ SMTP_PASS=
 REDIS_HOST=localhost
 EDIS_PORT=6379
 
-TAVILY_KEY=
 
 
 🚀 Запуск
