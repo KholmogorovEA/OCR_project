@@ -32,7 +32,7 @@ from pdf2image import convert_from_path
 from dotenv import load_dotenv
 from app.config import settings
 from app.tools.funcs import allowed_file, filter_data, create_vector_db, fetch_and_convert_to_markdown, get_summary, split_and_load
-from app.tools.tavily_api import generate_legal_report
+
 from app.bot.bot import send_telegram_message
 from app.database import SessionLocal, engine
 from app.sql.model import Base, Case, Subscription
