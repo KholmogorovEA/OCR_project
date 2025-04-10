@@ -10,7 +10,6 @@ class Settings(BaseSettings):
     TELEGRAM_BOT_TOKEN: str
     TELEGRAM_CHAT_ID: str
 
-    TAVILY_KEY: str
     USER_AGENT: str
     # SMTP_HOST: str
     # SMTP_PORT: int
